@@ -1,3 +1,28 @@
+:root {
+    --cor-do-header: #EEC759; 
+    --cor-do-site: #B4B2AF;
+    --cor-secoes: #F8D87F;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: var(--cor-do-site);
+}
+
+header {
+    background-color: var(--cor-do-header);
+    padding: 5px;
+}
+
+header div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+}
+
 .nome-do-site {
     font-size: 3rem;
     font-weight: 300;
@@ -11,6 +36,7 @@
     margin: 0 auto;
     padding: 10px 0;
     align-items: center;
+    justify-content: center;
 }
 
 .link-list a {
