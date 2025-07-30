@@ -23,6 +23,16 @@ header div {
     flex-direction: row;
 }
 
+footer {
+    background-color: var(--cor-do-header);
+    text-align: center;
+    padding: 1rem 0;
+}
+
+footer p {
+    margin-bottom: 0px;
+}
+
 .nome-do-site {
     font-size: 3rem;
     font-weight: 300;
@@ -46,15 +56,10 @@ header div {
 
 }
 
-.link-list a:hover {
-    font-size: 30px;
-}
-
 .receitas h2{
-    font-family: "Montserrat", sans-serif;
     font-size: 32px;
     font-weight: 300;
-    margin-left: 10px;
+    margin-left: 15px;
 }
 
 .doces {
