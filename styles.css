@@ -1,0 +1,39 @@
+.nome-do-site {
+    font-size: 3rem;
+    font-weight: 300;
+    text-align: center;
+}
+
+.link-list {
+    width: 75%;
+    display: flex;
+    font-size: 26px;
+    margin: 0 auto;
+    padding: 10px 0;
+    align-items: center;
+}
+
+.link-list a {
+    text-decoration: none;
+    color: black;
+    margin: 0 3rem;
+
+}
+
+.link-list a:hover {
+    font-size: 30px;
+}
+
+.receitas h2{
+    font-family: "Montserrat", sans-serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin-left: 10px;
+}
+
+.doces {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    text-align: center;
+    margin: 0px;
+}
