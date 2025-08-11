@@ -104,3 +104,27 @@ footer p {
     font-size: 16px;
     font-family: "Montserrat", sans-serif;
 }
+.doces {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.doces img {
+    width: 200px;      /* largura fixa */
+    height: 200px;     /* altura fixa */
+    object-fit: cover; /* mantém proporção cortando se necessário */
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.doces img:hover {
+    transform: scale(1.05);
+}
+
+.nome-doce {
+    text-align: center;
+    margin-top: 8px;
+}
