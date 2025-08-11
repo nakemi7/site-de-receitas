@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editor de Receita</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ajustes locais; usa suas variáveis de cor se existirem */
+    body { font-family: system-ui, Arial, sans-serif; max-width: 960px; margin: 0 auto; padding: 24px; background: var(--cor-do-site, #fafafa); }
+    .editor-header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .editor-header h1 { margin: 0; font-size: 28px; }
+    .slug { color: #555; font-size: 14px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+    .toolbar button { padding: 10px 14px; border: 0; border-radius: 10px; background: #111; color: #fff; cursor: pointer; }
+    .toolbar button:hover { opacity: .9; }
+    .toolbar .danger { background: #b00020; }
+    #editor {
+      width: 100%; min-height: 60vh; resize: vertical;
+      padding: 14px; border-radius: 12px; border: 1px solid #ddd; line-height: 1.6; font-size: 16px; background: #fff;
+    }
+    .hint, .saved { font-size: 13px; }
+    .hint { color: #666; margin-top: 6px; }
+    .saved { color: #0a7a2f; display: none; }
+    a.voltar { display: inline-block; margin-top: 16px; color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="editor-header">
+    <h1 id="titulo">Receita</h1>
+    <span class="slug" id="slug"></span>
+  </div>
+
+  <div class="toolbar">
+    <button id="btnSalvar">Salvar agora</button>
+    <button id="btnExportar">Exportar .txt</button>
+    <button id="btnImprimir">Imprimir</button>
+    <button id="btnLimpar" class="danger">Limpar</button>
+  </div>
+
+  <textarea id="editor" placeholder="Escreva aqui o passo a passo. Ex:
+1) Separe os ingredientes...
+2) Misture até ficar homogêneo...
+3) Leve à geladeira por 2 horas...
+4) Sirva!"></textarea>
+
+  <div class="hint">Dica: salvamos automaticamente enquanto você digita (no seu navegador).</div>
+  <div class="saved" id="savedFlag">Salvo!</div>
+
+  <a href="index.html" class="voltar">← Voltar ao Cozinha Fácil</a>
+
+  <script>
+    // util: pega ?receita= da URL
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    // util: slug -> Título Bonito
+    function slugToTitle(slug) {
+      if (!slug) return 'Receita';
+      return decodeURIComponent(slug)
+        .replace(/[-_]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1));
+    }
+
+    const slug = getParam('receita') || 'minha-receita';
+    const STORAGE_KEY = `receita:${slug}`;
+    const tituloEl = document.getElementById('titulo');
+    const slugEl = document.getElementById('slug');
+    const editorEl = document.getElementById('editor');
+    const savedFlag = document.getElementById('savedFlag');
+
+    tituloEl.textContent = slugToTitle(slug);
+    slugEl.textContent = `(${slug})`;
+
+    // carrega conteúdo salvo
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) editorEl.value = saved;
+
+    // auto-save (debounce 300ms)
+    let t;
+    editorEl.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        localStorage.setItem(STORAGE_KEY, editorEl.value);
+        flashSaved();
+      }, 300);
+    });
+
+    // botões
+    document.getElementById('btnSalvar').addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, editorEl.value);
+      flashSaved();
+    });
+
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      const blob = new Blob([editorEl.value], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${slug}.txt`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('btnImprimir').addEventListener('click', () => window.print());
+
+    document.getElementById('btnLimpar').addEventListener('click', () => {
+      if (confirm('Tem certeza que deseja limpar o passo a passo desta receita?')) {
+        editorEl.value = '';
+        localStorage.removeItem(STORAGE_KEY);
+        flashSaved();
+      }
+    });
+
+    function flashSaved() {
+      savedFlag.style.display = 'inline';
+      clearTimeout(savedFlag._t);
+      savedFlag._t = setTimeout(() => savedFlag.style.display = 'none', 1200);
+    }
+  </script>
+</body>
+</html>

@@ -128,3 +128,19 @@ footer p {
     text-align: center;
     margin-top: 8px;
 }
+
+.doces img {
+  cursor: pointer;
+}
+
+.doces a {
+  display: block;
+  text-decoration: none;
+  border-radius: 12px; /* acompanha o raio da imagem */
+  outline: none;
+}
+
+.doces a:focus-visible img {
+  outline: 3px solid #000; /* foco visível no teclado */
+  outline-offset: 2px;
+}
