@@ -21,7 +21,7 @@
         <h2>Receitas:</h2>
         <div class="doces">
             <div>
-                <img "./mousse de maracuja.png" alt="foto-doces">
+                <img src="./mousse de maracuja.png" alt="foto-doces">
                 <h3 class="nome-doce">
                     <a href="mousse.html" target="_blank">Mousse de maracujá</a>
                 </h3>
@@ -115,41 +115,6 @@
     <footer>
         <p> © All Rigths Reserved - CozinhaFacil 2025</p>
     </footer>
-      <!-- ... seu HTML ... -->
-
-  <script>
-    // Transforma "Torta de limão" -> "torta-de-limao"
-    function slugify(str) {
-      return str
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '') // remove caracteres especiais
-        .trim()
-        .replace(/\s+/g, '-'); // espaços -> hífen
-    }
-
-    // Para cada card de .doces, cria o link do editor envolvendo a imagem
-    document.querySelectorAll('.doces > div').forEach(card => {
-      const img = card.querySelector('img');
-      const linkTitulo = card.querySelector('.nome-doce a');
-      if (!img || !linkTitulo) return;
-
-      const titulo = linkTitulo.textContent.trim();
-      const slug = slugify(titulo);
-
-      // Se a imagem já estiver dentro de um link, não duplica
-      if (img.closest('a')) return;
-
-      const a = document.createElement('a');
-      a.href = `editor.html?receita=${encodeURIComponent(slug)}`;
-      a.target = '_blank';
-      a.title = 'Anotar passo a passo';
-
-      // envolve a imagem com o link
-      img.parentNode.insertBefore(a, img);
-      a.appendChild(img);
-    });
-  </script>
 </body>
 </html>
 
